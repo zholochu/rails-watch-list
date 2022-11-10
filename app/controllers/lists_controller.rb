@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-  before_action :set_list, only: %i[show edit update destroy]
+  before_action :set_list, only: %i[show edit update create destroy]
 
   def index
     @lists = List.all
