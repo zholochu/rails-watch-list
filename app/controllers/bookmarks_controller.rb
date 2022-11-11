@@ -1,9 +1,10 @@
 class BookmarksController < ApplicationController
-  before_action :set_bookmark, only: %i[destroy]
-  before_action :set_list, only: %i[:new, :create]
+  before_action :set_bookmark, only: [:destroy]
+  before_action :set_list, only: [:new, :create]
 
   def new
     @bookmark = Bookmark.new
+    # @list = List.find(params[:list_id])
   end
 
   def create
@@ -12,7 +13,6 @@ class BookmarksController < ApplicationController
     if @bookmark.save
       redirect_to list_path(@list), notice: "Bookmark was successfully created."
     else
-      @bookmark = Bookmark.new(bookmark_params)
       render :new
     end
   end
