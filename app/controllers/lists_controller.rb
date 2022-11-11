@@ -1,19 +1,18 @@
 class ListsController < ApplicationController
-  before_action :set_list, only: %i[show edit update destroy]
+  before_action :set_list, only: %i[show destroy]
 
   def index
     @lists = List.all
   end
 
   def show
+    @bookmark = Bookmark.new
+    @review = Review.new(list: @list)
   end
 
   def new
     @list = List.new
   end
-
-  # def edit
-  # end
 
   def create
     @list = List.new(list_params)
@@ -25,17 +24,9 @@ class ListsController < ApplicationController
     end
   end
 
-  def update
-    if @list.update(list_params)
-      redirect_to @list, notice: "List was successfully updated."
-    else
-      render :edit, status: :unprocessable_entity
-    end
-  end
-
   def destroy
     @list.destroy
-    redirect_to list_url, notice: "List was successfully destroyed."
+    redirect_to list_path, status: :see_other
   end
 
   private
@@ -47,6 +38,6 @@ class ListsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def list_params
-    params.require(:list).permit(:name)
+    params.require(:list).permit(:name, :photo)
   end
 end
